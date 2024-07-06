@@ -1,0 +1,254 @@
+{
+  "string": "Hello, World!",
+  "number": 12345,
+  "negative_number": -9876,
+  "floating_point": 3.14159,
+  "scientific_notation": 1e-10,
+  "boolean_true": true,
+  "boolean_false": false,
+  "null_value": null,
+  "empty_string": "",
+  "unicode_string": "-",
+  "empty_array": [],
+  "array_with_numbers": [
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "array_with_strings": [
+    "a",
+    "b",
+    "c",
+    "d"
+  ],
+  "array_with_mixed_types": [
+    1,
+    "two",
+    null,
+    false,
+    3.5
+  ],
+  "nested_array": [
+    [
+      1,
+      2
+    ],
+    [
+      3,
+      4
+    ],
+    [
+      5,
+      6
+    ]
+  ],
+  "empty_object": {},
+  "simple_object": {
+    "key1": "value1",
+    "key2": "value2"
+  },
+  "nested_object": {
+    "outer_key": {
+      "inner_key": "inner_value",
+      "inner_array": [
+        1,
+        2,
+        3
+      ]
+    }
+  },
+  "object_with_arrays": {
+    "array1": [
+      1,
+      2,
+      3
+    ],
+    "array2": [
+      "a",
+      "b",
+      "c"
+    ]
+  },
+  "array_of_objects": [
+    {
+      "name": "Alice",
+      "age": 30
+    },
+    {
+      "name": "Bob",
+      "age": 25
+    },
+    {
+      "name": "Charlie",
+      "age": 35
+    }
+  ],
+  "special_characters": "!@#$%^&*()_+-=[]{}|;:'\",.<>/?",
+  "escaped_characters": "Line1\nLine2\tTabbed",
+  "long_string": "A",
+  "*": 1000,
+  "integer_limits": {
+    "max_int": 2147483647,
+    "min_int": -2147483648
+  },
+  "float_limits": {
+    "max_float": 1.7976931348623157e+308,
+    "min_float": -1.7976931348623157e+308
+  },
+  "mixed_object": {
+    "int": 42,
+    "float": 2.71828,
+    "str": "text",
+    "bool": false,
+    "null": null,
+    "array": [
+      1,
+      "two",
+      true
+    ],
+    "nested": {
+      "a": 1,
+      "b": "2",
+      "c": [
+        null,
+        false
+      ]
+    }
+  },
+  "keys_with_special_characters": {
+    "key with spaces": "value",
+    "key-with-dashes": "value",
+    "key_with_underscores": "value",
+    "\"key_with_quotes\"": "value",
+    "key\\with\backslashes": "value"
+  },
+  "empty_key": {
+    "": "empty key"
+  },
+  "very_deeply_nested_object": {
+    "level1": {
+      "level2": {
+        "level3": {
+          "level4": {
+            "level5": {
+              "level6": {
+                "level7": {
+                  "level8": {
+                    "level9": {
+                      "level10": "deep_value"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "large_array": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29,
+    30,
+    31,
+    32,
+    33,
+    34,
+    35,
+    36,
+    37,
+    38,
+    39,
+    40,
+    41,
+    42,
+    43,
+    44,
+    45,
+    46,
+    47,
+    48,
+    49,
+    50,
+    51,
+    52,
+    53,
+    54,
+    55,
+    56,
+    57,
+    58,
+    59,
+    60,
+    61,
+    62,
+    63,
+    64,
+    65,
+    66,
+    67,
+    68,
+    69,
+    70,
+    71,
+    72,
+    73,
+    74,
+    75,
+    76,
+    77,
+    78,
+    79,
+    80,
+    81,
+    82,
+    83,
+    84,
+    85,
+    86,
+    87,
+    88,
+    89,
+    90,
+    91,
+    92,
+    93,
+    94,
+    95,
+    96,
+    97,
+    98,
+    99,
+    100
+  ],
+  "control_characters": "This is a text with control characters like \u0000, \u0001, \u0002"
+}

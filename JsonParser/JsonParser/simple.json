@@ -1,0 +1,50 @@
+{
+  "LongBoii": "123456789-123456789-123456789-123456789-123456789-123456789",
+
+  "JsObj": {
+    "StrType": "Hey there true",
+    "FloatType": 2.2,
+    "booleanthefirst": false
+  },
+
+  "array_with_it_all": [
+    true,
+    "First ele",
+    1,
+    null,
+    2,
+    "Someweheinbetween",
+    4,
+    false,
+    true,
+    5
+  ],
+
+  "middlename": null,
+
+  "LongBoii2": "Yeah-123456789-123456789-123456789-123456789-123456789-123456789",
+  
+  "empty_key": {
+    "": "empty key"
+  },
+
+  "Js2Obj": {
+    "ArrType": [
+      {
+        "StrInArr0": "Uno-Uno",
+        "trueStrInArr1": "Uno-Dos",
+        "Integer": 3666,
+        "boolean": true,
+        "b2": false
+      },
+      {
+        "StrInArr2": "Dos-Uno",
+        "StrInArr3": "Dos-Dos",
+        "Double2": 243.23
+      }
+    ]
+  },
+
+  "Shit": "Damn"
+
+}
