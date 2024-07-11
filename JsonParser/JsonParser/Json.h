@@ -72,7 +72,7 @@ typedef struct JsonObject_t
 
 typedef struct
 {
-
+	DynamicArray Objects;
 } Json;
 
 char* JsonSetName(const char* Name)
@@ -136,7 +136,7 @@ void JsonPrintJsonTree(JsonObject* Root, size_t Level)
 	}
 }
 
-#define JSON_NO_NAME "Unnamed"
+#define JSON_NO_NAME "Unamed"
 
 JsonRet JsonParseBuffer(const size_t Length, const char* Buffer, Json* Jsn)
 {
@@ -144,13 +144,14 @@ JsonRet JsonParseBuffer(const size_t Length, const char* Buffer, Json* Jsn)
 
 	DynamicArray Objects = DynamicArrayCreate(sizeof(JsonObject), "Json Objects");
 	JsonObject Obj;
-	Obj.Name = JsonSetName("Default");
+//	Obj.Name = JsonSetName("Default");
+	Obj.Name = NULL;
 	Obj.Type = JSON_OBJ;
 	Obj.PrevObj = NULL;
 	memset(&Obj.Refrences, 0, sizeof(DynamicArray));
 //	DynamicArrayPush(&Objects, &Obj);
 
-	DynamicArray Variables = DynamicArrayCreate(sizeof(JsonVariables), "Json Variables");
+//	DynamicArray Variables = DynamicArrayCreate(sizeof(JsonVariables), "Json Variables");
 	JsonVariables Var;
 	Var.Type = JSON_TYPE_COUNT;
 	Var.Data.Str = NULL;
@@ -159,11 +160,12 @@ JsonRet JsonParseBuffer(const size_t Length, const char* Buffer, Json* Jsn)
 	JsonObject* CurObj = NULL;
 	JsonObject* PrevObj = NULL;
 
-	char StrLen = 0;
-	char String[32];
+	size_t StrLen = 0;
+	size_t StrAllocSize = 32;
+	char* String = (char*)malloc(StrAllocSize);
 
 	DynamicArray Names = DynamicArrayCreate(sizeof(char**), "Json Names");
-	char* pNameDefault = JsonSetName("Default");
+//	char* pNameDefault = JsonSetName("Default");
 //	DynamicArrayPush(&Names, (char**)&pNameDefault);
 
 	bool ObjWithName = false;
@@ -185,7 +187,7 @@ JsonRet JsonParseBuffer(const size_t Length, const char* Buffer, Json* Jsn)
 		{
 			JsonVariables* Var = (JsonVariables*)DynamicArrayGetAt(&CurObj->Refrences, CurObj->Refrences.Size - 1);
 			DynamicArrayPush(&Names, (char**)&Var->Data.Str);
-
+			free(Var->Name);
 			DynamicArrayPop(&CurObj->Refrences, CurObj->Refrences.Size - 1);
 
 			ObjWithName = true;
@@ -244,15 +246,29 @@ JsonRet JsonParseBuffer(const size_t Length, const char* Buffer, Json* Jsn)
 					Var.Type = JSON_STR;
 
 					StrLen = 0;
-					while (Buffer[++i] != '\"' && StrLen < 31)
+					while (Buffer[++i] != '\"')
 					{
 						if (Buffer[i] == '\\')
 						{
 							i++;
 						}
 						String[StrLen++] = Buffer[i];
+
+						if (StrLen >= StrAllocSize)
+						{
+							StrAllocSize += 32;
+							char* TmpChr = (char*)realloc(String, StrAllocSize);
+							if (TmpChr)
+								String = TmpChr;
+							else
+							{
+								while (Buffer[i] != '\"') i++;
+								break;
+							}
+								
+						}
 					}
-					while (StrLen == 31 && Buffer[i] != '\"') i++;
+				//	while (StrLen == 31 && Buffer[i] != '\"') i++;
 					String[StrLen] = 0;
 					//	if (StrLen > 0)
 
@@ -265,7 +281,7 @@ JsonRet JsonParseBuffer(const size_t Length, const char* Buffer, Json* Jsn)
 
 						ObjWithName = false;
 
-						DynamicArrayPush(&Variables, &Var);
+					//	DynamicArrayPush(&Variables, &Var);
 					}
 					else
 					{
@@ -328,7 +344,7 @@ JsonRet JsonParseBuffer(const size_t Length, const char* Buffer, Json* Jsn)
 					}
 
 
-					DynamicArrayPush(&Variables, &Var);
+				//	DynamicArrayPush(&Variables, &Var);
 					DynamicArrayPush(&CurObj->Refrences, &Var);
 				}
 				break;
@@ -355,7 +371,7 @@ JsonRet JsonParseBuffer(const size_t Length, const char* Buffer, Json* Jsn)
 						Var.Type = JSON_BOOL;
 						Var.Data.Bool = IsBoolTrue;
 
-						DynamicArrayPush(&Variables, &Var);
+					//	DynamicArrayPush(&Variables, &Var);
 						DynamicArrayPush(&CurObj->Refrences, &Var);
 						if (IsBoolTrue)
 							i += 3;
@@ -386,7 +402,7 @@ JsonRet JsonParseBuffer(const size_t Length, const char* Buffer, Json* Jsn)
 						Var.Type = JSON_NULL;
 						Var.Data.Str = NULL;
 
-						DynamicArrayPush(&Variables, &Var);
+					//	DynamicArrayPush(&Variables, &Var);
 
 						DynamicArrayPush(&CurObj->Refrences, &Var);
 						i += 3;
@@ -407,35 +423,15 @@ JsonRet JsonParseBuffer(const size_t Length, const char* Buffer, Json* Jsn)
 		}
 	}
 	
+	DynamicArrayDestroy(&Names);
+	free(String);
+
+
 	JsonObject* pObj = NULL;
 	pObj = (JsonObject*)DynamicArrayGetAt(&Objects, 0);
 	JsonPrintJsonTree(pObj, 0);
 
-	//Check whats left
-	/*
-	for (size_t i = 0; i < Variables.Size; i++)
-	{
-		JsonVariables* pVar = (JsonVariables*)DynamicArrayGetAt(&Variables, i);
-		if (pVar->Type == JSON_STR)
-			printf("Var[Str]: %zu, %s: %s\n", i, pVar->Name, pVar->Data.Str);
-		else if (pVar->Type == JSON_DUB)
-			printf("Var[Double]: %zu, %s: %f\n", i, pVar->Name, pVar->Data.Double);
-		else if (pVar->Type == JSON_INT)
-			printf("Var[Int]: %zu, %s: %lld\n", i, pVar->Name, pVar->Data.Int);
-		else if (pVar->Type == JSON_BOOL)
-			printf("Var[Bool]: %zu, %s: %s\n", i, pVar->Name, (pVar->Data.Bool ? "true" : "false"));
-		else if (pVar->Type == JSON_NULL)
-			printf("Var[Unknown]: %zu, %s\n", i, pVar->Name);
-		//else
-
-	}
-
-	for (size_t i = 0; i < Names.Size; i++)
-	{
-		char* Str = *(char**)DynamicArrayGetAt(&Names, i);
-		printf("Str: %zu, %s\n", i, Str);
-	}
-	*/
+	Jsn->Objects = Objects;
 
 	return JSON_TRUE;
 }
@@ -465,7 +461,41 @@ JsonRet JsonParseFile(const char* FileName, Json* Jsn)
 	return Ret;
 }
 
+void JsonFreeTree(JsonObject* Root)
+{
+	if (Root == NULL)
+		return;
+
+	if (Root->Type != JSON_OBJ &&
+		Root->Type != JSON_ARY)
+	{
+		JsonVariables* pVar = (JsonVariables*)Root;
+
+		if (pVar->Type == JSON_STR)
+			free(pVar->Data.Str);
+	}
+
+//	printf("Nayme: %s\n", Root->Name);
+
+	free(Root->Name);
+
+	// Recur on each child
+	if (Root->Type == JSON_OBJ ||
+		Root->Type == JSON_ARY)
+	{
+		for (size_t i = 0; i < Root->Refrences.Size; i++)
+		{
+			JsonObject* Obj = (JsonObject*)DynamicArrayGetAt(&Root->Refrences, i);
+			JsonFreeTree(Obj);
+		}
+		DynamicArrayDestroy(&Root->Refrences);
+	}
+}
+
 void JsonDestroy(Json* Jsn)
 {
-
+	JsonObject* pObj = NULL;
+	pObj = (JsonObject*)DynamicArrayGetAt(&Jsn->Objects, 0);
+	JsonFreeTree(pObj);
+	DynamicArrayDestroy(&Jsn->Objects);
 }

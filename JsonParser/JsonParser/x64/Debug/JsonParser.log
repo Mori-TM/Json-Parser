@@ -1,5 +1,3 @@
 ﻿  main.cpp
-C:\Users\Moritz Laptop\source\repos\JsonParser\JsonParser\Json.h(28,2): warning C4002: too many arguments for function-like macro invocation 'va_start'
-  (compiling source file 'main.cpp')
-  
-  JsonParser.vcxproj -> C:\Users\Moritz Laptop\source\repos\JsonParser\x64\Debug\JsonParser.exe
+D:\GitHub\Json-Parser\JsonParser\JsonParser\Json.h(28,2): warning C4002: too many arguments for function-like macro invocation 'va_start'
+  JsonParser.vcxproj -> D:\GitHub\Json-Parser\JsonParser\x64\Debug\JsonParser.exe

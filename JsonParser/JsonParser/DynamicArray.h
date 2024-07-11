@@ -1,3 +1,6 @@
+//#ifndef DYNAMIC_ARRAY
+//#define DYNAMIC_ARRAY
+
 #define DYNAMIC_ARRAY_BLOCK_COUNT 32
 #define DYNAMIC_ARRAY_MAX_GARBAGE_COUNT 16
 
@@ -116,7 +119,7 @@ bool DynamicArrayPop(DynamicArray* Array, size_t Index)
 
 void* DynamicArrayGetAt(DynamicArray* Array, size_t Index)
 {
-	if (Index >= Array->Size || Array == NULL)
+	if (Array == NULL || Index >= Array->Size)
 		return NULL;
 
 	return ((char*)Array->Data) + Index * Array->SizeOfBlock;
@@ -127,3 +130,4 @@ void DynamicArrayDestroy(DynamicArray* Array)
 	free(Array->Data);
 	memset(Array, 0, sizeof(DynamicArray));
 }
+//#endif
